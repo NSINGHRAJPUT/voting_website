@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-center mb-6">Welcome, {{ user.full_name }}</h2>
+
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <h3 class="text-2xl font-bold mb-4">Your Voting History</h3>
+
+        {% if votes %}
+            <ul class="list-disc pl-5">
+                {% for vote in votes %}
+                    <li class="mb-2">
+                        <strong>{{ vote.title }}</strong>: {{ vote.description }}
+                        <br><small>Created on: {{ vote.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No votes yet.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

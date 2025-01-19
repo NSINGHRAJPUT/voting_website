@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Online Voting{% endblock %}
+
+{% block content %}
+
+
+<section class="bg-blue-500 text-white py-20">
+    <div class="container mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-4">Your Vote Matters</h2>
+        <p class="text-lg mb-6">Join our secure and efficient online voting platform.</p>
+        <a href="/register" class="bg-white text-blue-500 px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-gray-200">Get Started</a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-6">About Our Platform</h2>
+        <p class="text-lg text-gray-600">We provide a secure, transparent, and user-friendly platform for online voting. Whether it’s for small communities or large organizations, we’ve got you covered.</p>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="bg-gray-200 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-6">Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-semibold mb-3">Secure Voting</h3>
+                <p class="text-gray-600">Advanced encryption to protect your data and votes.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-semibold mb-3">Real-Time Results</h3>
+                <p class="text-gray-600">Instant results as soon as voting ends.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-semibold mb-3">Easy to Use</h3>
+                <p class="text-gray-600">Designed with simplicity for voters of all ages.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-xl font-semibold mb-3">24/7 Support</h3>
+                <p class="text-gray-600">We’re here to help at any time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-6">What People Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-600">“This platform made our elections so much easier. Highly recommend!”</p>
+                <h4 class="text-blue-500 font-semibold mt-4">- John Doe</h4>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-600">“Secure, fast, and easy to use. Couldn't ask for more.”</p>
+                <h4 class="text-blue-500 font-semibold mt-4">- Jane Smith</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="bg-blue-600 text-white py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
+        <p class="text-lg">Have questions or need help? Contact us anytime.</p>
+        <a href="/contact" class="bg-white text-blue-500 px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-gray-200">Contact Us</a>
+    </div>
+</section>
+
+{% endblock %}
