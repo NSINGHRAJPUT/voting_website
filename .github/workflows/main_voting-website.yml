@@ -1,7 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
 name: Build and deploy Python app to Azure Web App - voting-website
 
 on:
@@ -15,26 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - uses: actions/checkout@v4
 
+      # Step 2: Set up Python version
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Create and start virtual environment
+      # Step 3: Install dependencies
+      - name: Install dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
-      
-      - name: Install dependencies
-        run: sudo pip install -r requirements.txt
+          pip install --upgrade pip
+          pip install -r requirements.txt
         
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+      # Step 4: Run tests (Optional)
+      # Uncomment if you have tests to run
+      # - name: Run tests
+      #   run: pytest
 
+      # Step 5: Zip the project for deployment
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
+      # Step 6: Upload the zip artifact
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v4
         with:
@@ -51,16 +54,18 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     
     steps:
+      # Step 7: Download the artifact from the build job
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: python-app
 
+      # Step 8: Unzip the artifact
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      
-      - name: 'Deploy to Azure Web App'
+      # Step 9: Deploy to Azure Web App
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
