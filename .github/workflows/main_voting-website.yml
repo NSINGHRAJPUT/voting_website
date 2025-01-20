@@ -23,6 +23,7 @@ jobs:
       # Step 3: Install dependencies
       - name: Install dependencies
         run: |
+          pip install Flask-Migrate
           python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
