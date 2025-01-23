@@ -1,8 +1,10 @@
-from datetime import datetime
 from flask import Blueprint, render_template, request, flash, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import Admin, Election, User, Vote  # Ensure all required models are imported
+from models import Admin, Election, Candidate, User, Vote  # Ensure all required models are imported
 from extensions import db
+from datetime import datetime
+import random
+import string
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -144,3 +146,52 @@ def end_election(election_id):
         flash("Election not found!", "error")
     
     return redirect(url_for('admin.manage_elections'))
+
+@admin_bp.route('/admin/candidates/<int:election_id>', methods=['GET', 'POST'])
+def manage_candidates(election_id):
+    if 'admin_id' not in session:
+        flash("Please log in first.", "error")
+        return redirect(url_for('admin.admin_login'))
+
+    election = Election.query.get_or_404(election_id)
+
+    if request.method == 'POST':
+        print("Received POST request", request.form)  # Debugging line
+        candidate_name = request.form.get('candidate_name')
+        candidate_party = request.form.get('candidate_party')
+        candidate_id = request.form.get('candidate_id')
+
+        if candidate_id:  # Editing an existing candidate
+            candidate = Candidate.query.get(candidate_id)
+            if candidate:
+                candidate.name = candidate_name
+                candidate.party = candidate_party
+        else:  # Creating a new candidate
+            # Generate random ID for the candidate
+            candidate_id = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+            candidate = Candidate(id=candidate_id, name=candidate_name, party=candidate_party, election_id=election_id)
+            db.session.add(candidate)
+
+        db.session.commit()
+        flash("Candidate saved successfully!", "success")
+        return redirect(url_for('admin.manage_candidates', election_id=election_id))
+
+    candidates = Candidate.query.filter_by(election_id=election_id).all()
+    return render_template('manage_candidates.html', election=election, candidates=candidates)
+
+@admin_bp.route('/admin/candidates/delete/<string:candidate_id>', methods=['POST'])
+def delete_candidate(candidate_id):
+    if 'admin_id' not in session:
+        flash("Please log in first.", "error")
+        return redirect(url_for('admin.admin_login'))
+
+    candidate = Candidate.query.get(candidate_id)
+    if candidate:
+        election_id = candidate.election_id
+        db.session.delete(candidate)
+        db.session.commit()
+        flash("Candidate deleted successfully!", "success")
+    else:
+        flash("Candidate not found!", "error")
+    
+    return redirect(url_for('admin.manage_candidates', election_id=election_id))

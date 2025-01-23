@@ -1,0 +1,109 @@
+{% extends 'base.html' %} {% block title %}Manage Candidates - Online Voting{%
+endblock %} {% block content %}
+<section class="container mx-auto px-4 py-16">
+  <h2 class="text-3xl font-bold text-center mb-6">
+    Manage Candidates for {{ election.name }}
+  </h2>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %} {% if
+  messages %} {% for category, message in messages %}
+  <div
+    class="bg-{{ 'red' if category == 'error' else 'green' }}-100 text-{{ 'red' if category == 'error' else 'green' }}-800 px-4 py-2 rounded mb-4"
+  >
+    {{ message }}
+  </div>
+  {% endfor %} {% endif %} {% endwith %}
+
+  <!-- Create/Edit Candidate Form -->
+  <form
+    action="{{ url_for('admin.manage_candidates', election_id=election.id) }}"
+    method="POST"
+    class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+  >
+    <input
+      type="hidden"
+      name="candidate_id"
+      id="candidate_id"
+      value="{{ candidate.id if candidate else '' }}"
+    />
+    <div class="mb-4">
+      <label
+        for="candidate_name"
+        class="block text-gray-700 text-sm font-bold mb-2"
+        >Candidate Name</label
+      >
+      <input
+        type="text"
+        id="candidate_name"
+        name="candidate_name"
+        placeholder="Enter the candidate name"
+        value="{{ candidate.name if candidate else '' }}"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        required
+      />
+    </div>
+    <div class="mb-4">
+      <label
+        for="candidate_party"
+        class="block text-gray-700 text-sm font-bold mb-2"
+        >Candidate Party</label
+      >
+      <input
+        type="text"
+        id="candidate_party"
+        name="candidate_party"
+        placeholder="Enter the candidate party"
+        value="{{ candidate.party if candidate else '' }}"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        required
+      />
+    </div>
+    <div class="flex items-center justify-between">
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Save Candidate
+      </button>
+    </div>
+  </form>
+
+  <!-- Candidates List -->
+  <h3 class="text-2xl font-bold mb-4">Existing Candidates</h3>
+  <ul>
+    {% for candidate in candidates %}
+    <li class="mb-2">
+      <strong>{{ candidate.name }}</strong> - {{ candidate.party }}
+      <div class="inline-block">
+        <form
+          action="{{ url_for('admin.manage_candidates', election_id=election.id) }}"
+          method="POST"
+          class="inline"
+        >
+          <input type="hidden" name="candidate_id" value="{{ candidate.id }}" />
+          <button
+            type="submit"
+            class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          >
+            Edit
+          </button>
+        </form>
+        <form
+          action="{{ url_for('admin.delete_candidate', candidate_id=candidate.id) }}"
+          method="POST"
+          class="inline"
+        >
+          <button
+            type="submit"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+          >
+            Delete
+          </button>
+        </form>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

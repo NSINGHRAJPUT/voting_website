@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Online Voting{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
+  </head>
 
-<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
-
+  <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
     <!-- Navbar -->
     <nav class="bg-blue-600 text-white py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold">Voting Platform</a>
-            <ul class="flex space-x-4">
-                <li><a href="/" class="hover:underline">Home</a></li>
-                {% if 'user_id' in session %}
-                <li><a href="/dashboard" class="hover:underline">Dashboard</a></li>
-                <li><a href="/logout" class="hover:underline">Logout</a></li>
-                {% else %}
-                <li><a href="/register" class="hover:underline">Register</a></li>
-                <li><a href="/login" class="hover:underline">Login</a></li>
-                {% endif %}
-                <li><a href="/contact" class="hover:underline">Contact</a></li>
-            </ul>
-        </div>
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold">Voting Platform</a>
+        <ul class="flex space-x-4">
+          <li><a href="/" class="hover:underline">Home</a></li>
+          {% if 'user_id' in session %}
+          <li>
+            <a href="/admin/dashboard" class="hover:underline">Dashboard</a>
+          </li>
+          <li><a href="/logout" class="hover:underline">Logout</a></li>
+          {% else %}
+          <li>
+            <a href="/admin/register" class="hover:underline">Register</a>
+          </li>
+          <li><a href="/admin/login" class="hover:underline">Login</a></li>
+          {% endif %}
+          <li><a href="/contact" class="hover:underline">Contact</a></li>
+          <li>
+            <a href="{{ url_for('home.elections') }}">Elections</a>
+          </li>
+        </ul>
+      </div>
     </nav>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 flex-grow py-8">
-        {% block content %}{% endblock %}
+      {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-400 py-4">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2025 Voting Platform. All rights reserved.</p>
-        </div>
+      <div class="container mx-auto text-center">
+        <p>&copy; 2025 Voting Platform. All rights reserved.</p>
+      </div>
     </footer>
-
-</body>
-
+  </body>
 </html>
